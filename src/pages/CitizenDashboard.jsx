@@ -12,17 +12,12 @@ import {
 } from 'lucide-react'
 import { motion } from 'framer-motion'
 
-const CitizenDashboard = ({ t, onRaiseComplaint, onTrackComplaint, onLogout }) => {
+const CitizenDashboard = ({ t, language, setLanguage, onRaiseComplaint, onLogout }) => {
     const stats = [
-        { label: 'Total', count: 4, color: 'var(--primary)', icon: <PlusCircle size={20} /> },
-        { label: 'In Progress', count: 2, color: '#f59e0b', icon: <Clock size={20} /> },
-        { label: 'Resolved', count: 2, color: '#10b981', icon: <CheckCircle2 size={20} /> }
+        { label: 'Total', count: 4, color: 'var(--primary)', icon: <PlusCircle size={20} /> }
     ]
 
-    const recentComplaints = [
-        { id: 'NV-2026-001', dept: 'Electricity', status: 'In Progress', date: '2026-02-27' },
-        { id: 'NV-2026-002', dept: 'Water', status: 'Resolved', date: '2026-02-25' }
-    ]
+
 
     return (
         <div style={{ minHeight: '100vh', background: 'var(--muted)' }}>
@@ -42,6 +37,11 @@ const CitizenDashboard = ({ t, onRaiseComplaint, onTrackComplaint, onLogout }) =
                     <span style={{ fontSize: '1.25rem', fontWeight: '800', color: 'var(--primary)' }}>NIVAAN</span>
                 </div>
                 <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', background: 'var(--muted)', padding: '0.2rem', borderRadius: '0.5rem' }}>
+                        <button onClick={() => setLanguage('en')} style={{ border: 'none', background: language === 'en' ? 'white' : 'transparent', padding: '0.2rem 0.5rem', borderRadius: '0.3rem', cursor: 'pointer', fontSize: '0.75rem', fontWeight: '700' }}>EN</button>
+                        <button onClick={() => setLanguage('hi')} style={{ border: 'none', background: language === 'hi' ? 'white' : 'transparent', padding: '0.2rem 0.5rem', borderRadius: '0.3rem', cursor: 'pointer', fontSize: '0.75rem', fontWeight: '700' }}>HI</button>
+                        <button onClick={() => setLanguage('te')} style={{ border: 'none', background: language === 'te' ? 'white' : 'transparent', padding: '0.2rem 0.5rem', borderRadius: '0.3rem', cursor: 'pointer', fontSize: '0.75rem', fontWeight: '700' }}>TE</button>
+                    </div>
                     <button style={{ background: 'none', border: 'none', color: 'var(--muted-foreground)', cursor: 'pointer' }}><Bell size={20} /></button>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.5rem 1rem', background: 'var(--muted)', borderRadius: '2rem' }}>
                         <div style={{ width: '32px', height: '32px', background: 'var(--primary)', color: 'white', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -82,57 +82,9 @@ const CitizenDashboard = ({ t, onRaiseComplaint, onTrackComplaint, onLogout }) =
                     ))}
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '2rem' }}>
-                    {/* Recent Complaints */}
-                    <section>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-                            <h2 style={{ fontSize: '1.25rem', fontWeight: '700' }}>Recent Complaints</h2>
-                            <button style={{ color: 'var(--primary)', fontWeight: '600', background: 'none', border: 'none', cursor: 'pointer' }}>View All</button>
-                        </div>
-                        <div style={{ display: 'grid', gap: '1rem' }}>
-                            {recentComplaints.map((comp, i) => (
-                                <div
-                                    key={i}
-                                    className="glass-card"
-                                    style={{ padding: '1.25rem', borderRadius: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer' }}
-                                    onClick={onTrackComplaint}
-                                >
-                                    <div style={{ display: 'flex', gap: '1.25rem', alignItems: 'center' }}>
-                                        <div style={{
-                                            width: '48px',
-                                            height: '48px',
-                                            background: 'white',
-                                            borderRadius: '12px',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            color: 'var(--primary)',
-                                            border: '1px solid var(--border)'
-                                        }}>
-                                            <AlertCircle size={24} />
-                                        </div>
-                                        <div>
-                                            <div style={{ fontWeight: '700', marginBottom: '0.25rem' }}>{comp.id}</div>
-                                            <div style={{ fontSize: '0.875rem', color: 'var(--muted-foreground)' }}>{comp.dept} • {comp.date}</div>
-                                        </div>
-                                    </div>
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                                        <span style={{
-                                            padding: '0.4rem 0.8rem',
-                                            borderRadius: '2rem',
-                                            fontSize: '0.75rem',
-                                            fontWeight: '700',
-                                            background: comp.status === 'Resolved' ? '#dcfce7' : '#fef3c7',
-                                            color: comp.status === 'Resolved' ? '#166534' : '#92400e'
-                                        }}>
-                                            {comp.status}
-                                        </span>
-                                        <ChevronRight size={18} color="var(--border)" />
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </section>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
+                    {/* Empty left side for balance or future features */}
+                    <div></div>
 
                     {/* Quick Actions */}
                     <section>
@@ -144,13 +96,6 @@ const CitizenDashboard = ({ t, onRaiseComplaint, onTrackComplaint, onLogout }) =
                                 onClick={onRaiseComplaint}
                             >
                                 <PlusCircle size={24} /> Raise New Complaint
-                            </button>
-                            <button
-                                className="btn btn-secondary"
-                                style={{ width: '100%', padding: '1.25rem', borderRadius: '1rem', justifyContent: 'flex-start', gap: '1rem' }}
-                                onClick={onTrackComplaint}
-                            >
-                                <Search size={24} /> Track Existing
                             </button>
                             <div
                                 className="glass-card"

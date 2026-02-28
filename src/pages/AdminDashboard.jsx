@@ -17,7 +17,7 @@ import {
 } from 'lucide-react'
 import { motion } from 'framer-motion'
 
-const AdminDashboard = ({ t, onLogout, onViewEscalations }) => {
+const AdminDashboard = ({ t, language, setLanguage, onLogout, onViewEscalations }) => {
     const [activeTab, setActiveTab] = useState('new')
 
     const stats = [
@@ -87,7 +87,12 @@ const AdminDashboard = ({ t, onLogout, onViewEscalations }) => {
                         <h1 style={{ fontSize: '1.75rem', fontWeight: '800', marginBottom: '0.25rem' }}>Electricity Department</h1>
                         <p style={{ color: 'var(--muted-foreground)' }}>Area: North Zone District</p>
                     </div>
-                    <div style={{ display: 'flex', gap: '1rem' }}>
+                    <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                        <div style={{ display: 'flex', background: 'white', padding: '0.2rem', borderRadius: '0.5rem', border: '1px solid var(--border)' }}>
+                            <button onClick={() => setLanguage('en')} style={{ border: 'none', background: language === 'en' ? 'var(--muted)' : 'transparent', padding: '0.2rem 0.5rem', borderRadius: '0.3rem', cursor: 'pointer', fontSize: '0.75rem', fontWeight: '700' }}>EN</button>
+                            <button onClick={() => setLanguage('hi')} style={{ border: 'none', background: language === 'hi' ? 'var(--muted)' : 'transparent', padding: '0.2rem 0.5rem', borderRadius: '0.3rem', cursor: 'pointer', fontSize: '0.75rem', fontWeight: '700' }}>HI</button>
+                            <button onClick={() => setLanguage('te')} style={{ border: 'none', background: language === 'te' ? 'var(--muted)' : 'transparent', padding: '0.2rem 0.5rem', borderRadius: '0.3rem', cursor: 'pointer', fontSize: '0.75rem', fontWeight: '700' }}>TE</button>
+                        </div>
                         <div style={{ position: 'relative' }}>
                             <Search size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--muted-foreground)' }} />
                             <input type="text" className="form-input" placeholder="Search ID..." style={{ paddingLeft: '2.75rem', width: '250px' }} />

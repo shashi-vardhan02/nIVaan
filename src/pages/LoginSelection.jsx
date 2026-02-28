@@ -2,27 +2,31 @@ import React from 'react'
 import { User, ShieldCheck, ChevronLeft, ArrowRight } from 'lucide-react'
 import { motion } from 'framer-motion'
 
-const LoginSelection = ({ t, onSelectRole, onBack }) => {
+const LoginSelection = ({ t, language, setLanguage, onSelectRole, onBack }) => {
     return (
         <div className="flex-center" style={{ minHeight: '100vh', padding: '2rem' }}>
-            <button
-                onClick={onBack}
-                style={{
-                    position: 'absolute',
-                    top: '2rem',
-                    left: '2rem',
-                    background: 'none',
-                    border: 'none',
-                    color: 'var(--muted-foreground)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.5rem',
-                    cursor: 'pointer',
-                    fontWeight: '600'
-                }}
-            >
-                <ChevronLeft size={20} /> {t('common.back')}
-            </button>
+            <div style={{ position: 'absolute', top: '2rem', left: '2rem', right: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <button
+                    onClick={onBack}
+                    style={{
+                        background: 'none',
+                        border: 'none',
+                        color: 'var(--muted-foreground)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.5rem',
+                        cursor: 'pointer',
+                        fontWeight: '600'
+                    }}
+                >
+                    <ChevronLeft size={20} /> {t('common.back')}
+                </button>
+                <div style={{ display: 'flex', background: 'var(--muted)', padding: '0.2rem', borderRadius: '0.5rem' }}>
+                    <button onClick={() => setLanguage('en')} style={{ border: 'none', background: language === 'en' ? 'white' : 'transparent', padding: '0.2rem 0.6rem', borderRadius: '0.3rem', cursor: 'pointer', fontSize: '0.75rem', fontWeight: '700' }}>EN</button>
+                    <button onClick={() => setLanguage('hi')} style={{ border: 'none', background: language === 'hi' ? 'white' : 'transparent', padding: '0.2rem 0.6rem', borderRadius: '0.3rem', cursor: 'pointer', fontSize: '0.75rem', fontWeight: '700' }}>HI</button>
+                    <button onClick={() => setLanguage('te')} style={{ border: 'none', background: language === 'te' ? 'white' : 'transparent', padding: '0.2rem 0.6rem', borderRadius: '0.3rem', cursor: 'pointer', fontSize: '0.75rem', fontWeight: '700' }}>TE</button>
+                </div>
+            </div>
 
             <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}

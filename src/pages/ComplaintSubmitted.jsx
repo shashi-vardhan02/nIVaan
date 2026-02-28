@@ -2,7 +2,7 @@ import React from 'react'
 import { CheckCircle2, Copy, Share2, ArrowRight, Home } from 'lucide-react'
 import { motion } from 'framer-motion'
 
-const ComplaintSubmitted = ({ t, data, onTrack, onHome }) => {
+const ComplaintSubmitted = ({ t, data, onHome }) => {
     const complaintId = "NV-2026-092" // Simulated ID
 
     return (
@@ -42,16 +42,9 @@ const ComplaintSubmitted = ({ t, data, onTrack, onHome }) => {
                 </div>
 
                 <div style={{ display: 'grid', gap: '1rem' }}>
-                    <button
-                        className="btn btn-primary"
-                        style={{ width: '100%', padding: '1.25rem', fontSize: '1.1rem' }}
-                        onClick={onTrack}
-                    >
-                        Track Progress <ArrowRight size={20} />
-                    </button>
                     <div style={{ display: 'flex', gap: '1rem' }}>
                         <button
-                            className="btn btn-secondary"
+                            className="btn btn-primary"
                             style={{ flex: 1, padding: '1rem' }}
                             onClick={onHome}
                         >

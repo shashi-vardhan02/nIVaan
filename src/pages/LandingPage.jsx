@@ -12,7 +12,7 @@ import {
 } from 'lucide-react'
 import { motion } from 'framer-motion'
 
-const LandingPage = ({ t, onLogin, onTrack }) => {
+const LandingPage = ({ t, language, setLanguage, onLogin }) => {
     const departments = [
         { name: 'Electricity', icon: <Zap size={28} />, color: 'var(--primary)' },
         { name: 'Water', icon: <Droplets size={28} />, color: 'var(--secondary)' },
@@ -22,8 +22,7 @@ const LandingPage = ({ t, onLogin, onTrack }) => {
 
     const steps = [
         { title: 'Detect Location', desc: 'Auto-detects your nearest department office.' },
-        { title: 'Raise Request', desc: 'Describe your issue with photo/video proof.' },
-        { title: 'Track Live', desc: 'Get real-time updates on resolution progress.' }
+        { title: 'Raise Request', desc: 'Describe your issue with photo/video proof.' }
     ]
 
     return (
@@ -56,8 +55,51 @@ const LandingPage = ({ t, onLogin, onTrack }) => {
                     </div>
                     <span style={{ fontSize: '1.5rem', fontWeight: '800', tracking: '-0.02em', color: 'var(--primary)' }}>NIVAAN</span>
                 </div>
-                <div style={{ display: 'flex', gap: '1rem' }}>
-                    <button className="btn btn-secondary" onClick={onTrack}>{t('landing.navTrack')}</button>
+                <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', background: 'var(--muted)', padding: '0.25rem', borderRadius: '0.75rem', border: '1px solid var(--border)' }}>
+                        <button
+                            onClick={() => setLanguage('en')}
+                            style={{
+                                padding: '0.4rem 0.8rem',
+                                borderRadius: '0.5rem',
+                                border: 'none',
+                                background: language === 'en' ? 'white' : 'transparent',
+                                boxShadow: language === 'en' ? '0 2px 4px rgba(0,0,0,0.05)' : 'none',
+                                cursor: 'pointer',
+                                fontWeight: '600',
+                                fontSize: '0.8rem',
+                                color: language === 'en' ? 'var(--primary)' : 'var(--muted-foreground)'
+                            }}
+                        >EN</button>
+                        <button
+                            onClick={() => setLanguage('hi')}
+                            style={{
+                                padding: '0.4rem 0.8rem',
+                                borderRadius: '0.5rem',
+                                border: 'none',
+                                background: language === 'hi' ? 'white' : 'transparent',
+                                boxShadow: language === 'hi' ? '0 2px 4px rgba(0,0,0,0.05)' : 'none',
+                                cursor: 'pointer',
+                                fontWeight: '600',
+                                fontSize: '0.8rem',
+                                color: language === 'hi' ? 'var(--primary)' : 'var(--muted-foreground)'
+                            }}
+                        >हिंदी</button>
+                        <button
+                            onClick={() => setLanguage('te')}
+                            style={{
+                                padding: '0.4rem 0.8rem',
+                                borderRadius: '0.5rem',
+                                border: 'none',
+                                background: language === 'te' ? 'white' : 'transparent',
+                                boxShadow: language === 'te' ? '0 2px 4px rgba(0,0,0,0.05)' : 'none',
+                                cursor: 'pointer',
+                                fontWeight: '600',
+                                fontSize: '0.8rem',
+                                color: language === 'te' ? 'var(--primary)' : 'var(--muted-foreground)'
+                            }}
+                        >తెలుగు</button>
+                    </div>
                     <button className="btn btn-primary" onClick={onLogin}><LogIn size={18} /> {t('landing.navLogin')}</button>
                 </div>
             </nav>
@@ -93,9 +135,6 @@ const LandingPage = ({ t, onLogin, onTrack }) => {
                     <div style={{ display: 'flex', gap: '1.5rem', justifyContent: 'center' }}>
                         <button className="btn btn-primary" style={{ padding: '1rem 2.5rem', fontSize: '1.1rem' }} onClick={onLogin}>
                             {t('landing.getStarted')} <ArrowRight size={20} />
-                        </button>
-                        <button className="btn btn-secondary" style={{ padding: '1rem 2.5rem', fontSize: '1.1rem' }} onClick={onTrack}>
-                            <Search size={20} /> {t('landing.trackNow')}
                         </button>
                     </div>
                 </motion.div>

@@ -13,7 +13,7 @@ import {
 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 
-const RegisterComplaint = ({ t, onSubmit, onBack }) => {
+const RegisterComplaint = ({ t, language, setLanguage, onSubmit, onBack }) => {
     const [step, setStep] = useState(1)
     const [formData, setFormData] = useState({
         department: '',
@@ -37,22 +37,28 @@ const RegisterComplaint = ({ t, onSubmit, onBack }) => {
     return (
         <div style={{ minHeight: '100vh', background: 'var(--muted)', padding: '2rem' }}>
             <main style={{ maxWidth: '800px', margin: '0 auto' }}>
-                <button
-                    onClick={handleBack}
-                    style={{
-                        background: 'none',
-                        border: 'none',
-                        color: 'var(--muted-foreground)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '0.5rem',
-                        cursor: 'pointer',
-                        fontWeight: '600',
-                        marginBottom: '2rem'
-                    }}
-                >
-                    <ChevronLeft size={20} /> {t('common.back')}
-                </button>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+                    <button
+                        onClick={handleBack}
+                        style={{
+                            background: 'none',
+                            border: 'none',
+                            color: 'var(--muted-foreground)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '0.5rem',
+                            cursor: 'pointer',
+                            fontWeight: '600'
+                        }}
+                    >
+                        <ChevronLeft size={20} /> {t('common.back')}
+                    </button>
+                    <div style={{ display: 'flex', background: 'var(--border)', padding: '0.2rem', borderRadius: '0.5rem' }}>
+                        <button onClick={() => setLanguage('en')} style={{ border: 'none', background: language === 'en' ? 'white' : 'transparent', padding: '0.2rem 0.6rem', borderRadius: '0.3rem', cursor: 'pointer', fontSize: '0.75rem', fontWeight: '700' }}>EN</button>
+                        <button onClick={() => setLanguage('hi')} style={{ border: 'none', background: language === 'hi' ? 'white' : 'transparent', padding: '0.2rem 0.6rem', borderRadius: '0.3rem', cursor: 'pointer', fontSize: '0.75rem', fontWeight: '700' }}>HI</button>
+                        <button onClick={() => setLanguage('te')} style={{ border: 'none', background: language === 'te' ? 'white' : 'transparent', padding: '0.2rem 0.6rem', borderRadius: '0.3rem', cursor: 'pointer', fontSize: '0.75rem', fontWeight: '700' }}>TE</button>
+                    </div>
+                </div>
 
                 {/* Step Indicator */}
                 <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '3rem' }}>
