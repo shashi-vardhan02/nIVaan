@@ -41,18 +41,7 @@ const LandingPage = ({ t, language, setLanguage, onLogin }) => {
                 borderBottom: '1px solid var(--border)'
             }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                    <div style={{
-                        width: '40px',
-                        height: '40px',
-                        background: 'var(--grad-primary)',
-                        borderRadius: '10px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        color: 'white'
-                    }}>
-                        <Shield size={24} />
-                    </div>
+                    <img src="/logo.png" alt="NIVaan Logo" style={{ height: '50px', objectFit: 'contain' }} />
                     <span style={{ fontSize: '1.5rem', fontWeight: '800', tracking: '-0.02em', color: 'var(--primary)' }}>NIVAAN</span>
                 </div>
                 <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>

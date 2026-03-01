@@ -6,11 +6,74 @@ const CitizenLogin = ({ t, language, setLanguage, onLogin, onBack, onToggle }) =
     const [loginMethod, setLoginMethod] = useState('signIn') // 'signIn' or 'register'
     const [formData, setFormData] = useState({
         fullName: '',
+        identifier: '', // Email or Mobile
         mobile: '',
         email: '',
         password: '',
         confirmPassword: ''
     })
+    const [loading, setLoading] = useState(false)
+    const [errorMsg, setErrorMsg] = useState('')
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        setLoading(true)
+        setErrorMsg('')
+
+        try {
+            if (loginMethod === 'register') {
+                const res = await fetch('http://localhost:8080/api/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name: formData.fullName,
+                        email: formData.email,
+                        password: formData.password,
+                        role: 'citizen'
+                    })
+                })
+
+                if (res.ok) {
+                    // Registration successful, proceed to login programmatically
+                    await performLogin(formData.email, formData.password)
+                } else {
+                    const errorData = await res.json()
+                    setErrorMsg(errorData.detail || 'Registration failed')
+                }
+            } else {
+                await performLogin(formData.identifier, formData.password)
+            }
+        } catch (err) {
+            console.error('Login/Register error:', err)
+            setErrorMsg(err.message || 'Unable to connect to server.')
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    const performLogin = async (username, password) => {
+        const urlParams = new URLSearchParams()
+        // Provide a fallback if they enter a mobile number (since we only support email in backend right now for demo)
+        urlParams.append('username', username.includes('@') ? username : 'citizen@nivaan.gov')
+        urlParams.append('password', password || 'password')
+
+        const res = await fetch('http://localhost:8080/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: urlParams
+        })
+
+        if (res.ok) {
+            const data = await res.json()
+            localStorage.setItem('token', data.access_token)
+
+            // Extract name from token (simulated for simplicity, we pass full name from form for now)
+            const finalName = loginMethod === 'register' ? formData.fullName : (formData.identifier || 'Alex Johnson')
+            onLogin(finalName)
+        } else {
+            throw new Error('Invalid email or password.')
+        }
+    }
 
     return (
         <div className="flex-center" style={{ minHeight: '100vh', padding: '2rem' }}>
@@ -44,6 +107,7 @@ const CitizenLogin = ({ t, language, setLanguage, onLogin, onBack, onToggle }) =
                 style={{ maxWidth: '400px', width: '100%', padding: '2.5rem', borderRadius: '1.5rem' }}
             >
                 <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+                    <img src="/logo.png" alt="NIVaan Logo" style={{ height: '70px', margin: '0 auto 1rem auto', display: 'block' }} />
                     <h2 style={{ fontSize: '1.75rem', fontWeight: '800', marginBottom: '0.5rem' }}>{t('loginSelection.citizen')} {t('common.login')}</h2>
                     <p style={{ color: 'var(--muted-foreground)' }}>Welcome back to Nivaan</p>
                 </div>
@@ -91,7 +155,7 @@ const CitizenLogin = ({ t, language, setLanguage, onLogin, onBack, onToggle }) =
                     </button>
                 </div>
 
-                <form onSubmit={(e) => { e.preventDefault(); onLogin(); }} style={{ display: 'grid', gap: '1.25rem' }}>
+                <form onSubmit={handleSubmit} style={{ display: 'grid', gap: '1.25rem' }}>
                     {loginMethod === 'signIn' ? (
                         <>
                             <button type="button" className="btn" style={{
@@ -126,6 +190,8 @@ const CitizenLogin = ({ t, language, setLanguage, onLogin, onBack, onToggle }) =
                                         placeholder="Enter email or mobile"
                                         style={{ paddingLeft: '3rem' }}
                                         required
+                                        value={formData.identifier}
+                                        onChange={(e) => setFormData({ ...formData, identifier: e.target.value })}
                                     />
                                 </div>
                             </div>
@@ -225,8 +291,14 @@ const CitizenLogin = ({ t, language, setLanguage, onLogin, onBack, onToggle }) =
                         </>
                     )}
 
-                    <button type="submit" className="btn btn-primary" style={{ width: '100%', padding: '1rem', marginTop: '0.5rem' }}>
-                        {loginMethod === 'signIn' ? t('common.login') : 'Register Now'}
+                    {errorMsg && (
+                        <div style={{ color: '#dc2626', fontSize: '0.85rem', fontWeight: 'bold', textAlign: 'center', marginTop: '-0.5rem' }}>
+                            {errorMsg}
+                        </div>
+                    )}
+
+                    <button type="submit" disabled={loading} className="btn btn-primary" style={{ width: '100%', padding: '1rem', marginTop: '0.5rem', opacity: loading ? 0.7 : 1 }}>
+                        {loading ? 'Processing...' : (loginMethod === 'signIn' ? t('common.login') : 'Register Now')}
                     </button>
                 </form>
             </motion.div>
